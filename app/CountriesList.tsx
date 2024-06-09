@@ -45,6 +45,7 @@ export const CountriesList = forwardRef<CountriesListRef, CountriesListProps>(
                 params: { search },
               });
               const result = response.data;
+              setPage(1)
               setCountries(result);
             } catch (error) {
               setIsError(true);
