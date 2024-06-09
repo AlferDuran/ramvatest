@@ -1,7 +1,13 @@
 "use client";
 import { Box, Grid, Text, Pagination, Select } from "grommet";
 import { CountryCard } from "./CountryCard.component";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
 import axios from "axios";
 import { BarLoader } from "react-spinners";
 
@@ -19,11 +25,14 @@ export const CountriesList = forwardRef<CountriesListRef, CountriesListProps>(
     //Usually use this states with a hook like react query but had issues setting it up
     const [isError, setIsError] = useState(false);
     const [countries, setCountries] = useState<Country[] | undefined>();
-    const [countriesInPage, setCountriesInPage] = useState<
-      Country[] | undefined
-    >();
     const [pageSize, setPageSize] = useState(5);
     const [page, setPage] = useState(1);
+
+    const countriesInPage = useMemo(
+      () =>
+        [...(countries || [])]?.slice((page - 1) * pageSize, page * pageSize),
+      [page, pageSize, countries]
+    );
 
     useImperativeHandle(
       ref,
@@ -45,39 +54,22 @@ export const CountriesList = forwardRef<CountriesListRef, CountriesListProps>(
           },
         };
       },
-      []
+      [props]
     );
-
-    const onChangePagiantion = ({
-      page,
-      startIndex,
-      endIndex,
-    }: {
-      page: number;
-      startIndex: number;
-      endIndex: number;
-    }) => {
-      setPage(page);
-    };
-
-    useEffect(() => {
-      setCountriesInPage(
-        [...(countries || [])]?.slice((page - 1) * pageSize, page * pageSize)
-      );
-    }, [page, pageSize, countries]);
 
     return (
       <Box
         margin={{ top: "medium" }}
         style={{ flex: 1 }}
         pad={{ right: "small" }}
+        data-testid="countriesList"
       >
-        <Box style={{ visibility: props.isLoading ? "visible" : "hidden" }}>
+        <Box style={{ visibility: props.isLoading ? "visible" : "hidden" }} data-testid="countriesListLoadingBar">
           <BarLoader color="#36d7b7" width="100%" />
         </Box>
         {!countries?.length ? (
           <Box flex justify="center" align="center">
-            <Text size="xlarge" margin="none">
+            <Text size="xlarge" margin="none" data-testid="countriesListNoDataPlaceholder">
               {isError
                 ? "Something went wrong, please try again later 😭"
                 : countries
@@ -95,14 +87,18 @@ export const CountriesList = forwardRef<CountriesListRef, CountriesListProps>(
               margin="small"
             >
               <Pagination
+                data-testid="paginationCountriesList"
                 size="large"
                 page={page}
                 numberItems={countries.length}
                 step={pageSize}
-                onChange={onChangePagiantion}
+                onChange={({ page }) => {
+                  setPage(page);
+                }}
               />
               <b>Page Size: </b>
               <Select
+                data-testid="pageSizeCountriesList"
                 margin={{ left: "xsmall" }}
                 style={{ width: "50px" }}
                 multiple={true}
@@ -118,6 +114,7 @@ export const CountriesList = forwardRef<CountriesListRef, CountriesListProps>(
                 columns={{ count: "fit", size: "medium" }}
                 margin={{ top: "small" }}
                 pad={{ bottom: "medium", left: "small", right: "small" }}
+                data-testid="cardListSizeCountriesList"
               >
                 {countriesInPage?.map((country) => (
                   <CountryCard key={country.name} country={country} />
