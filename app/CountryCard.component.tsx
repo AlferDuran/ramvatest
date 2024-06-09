@@ -9,8 +9,8 @@ const displayInfo = ["capital", "region"];
 
 export const CountryCard = ({ country }: CountryCardProps) => {
   return (
-    <Card width="large" height="medium">
-      <CardBody height="small">
+    <Card width="large" height="medium" background="background">
+      <CardBody height="small" margin={{ top: "small" }}>
         <Image
           loading="lazy"
           fit="contain"

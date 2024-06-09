@@ -38,7 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Grommet full>
-          <Page height="100%" width="100%">
+          <Page height="100%" width="100%" background='#fafaf6'>
             <PageContent pad={{ left: "0" }} height="100%" width="100%">
               <AppBar>
                 <Text size="large"> 🌎 My Countries</Text>
