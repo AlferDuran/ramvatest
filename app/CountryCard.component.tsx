@@ -9,7 +9,7 @@ const displayInfo = ["capital", "region"];
 
 export const CountryCard = ({ country }: CountryCardProps) => {
   return (
-    <Card width="large" height="medium" background="background">
+    <Card width="large" height="medium" background="background" pad="large">
       <CardBody height="small" margin={{ top: "small" }}>
         <Image
           loading="lazy"
@@ -19,13 +19,13 @@ export const CountryCard = ({ country }: CountryCardProps) => {
           alt={`${country.name} Flag`}
         />
       </CardBody>
-      <CardHeader pad="small" style={{ fontWeight: "bold" }}>
-        <Text margin="none" color="brand">
-          {" "}
+      <CardHeader  style={{ fontWeight: "bold" }} margin={{ top: "large" }}>
+        <Text margin="none" color="brand" size="xlarge">
+
           {country.name}
         </Text>
       </CardHeader>
-      <Box pad="small" margin={{ bottom: "medium" }}>
+      <Box  margin={{ bottom: "medium" }}>
         {displayInfo.map((fieldName) => (
           <Info key={fieldName} fieldName={fieldName} country={country} />
         ))}
