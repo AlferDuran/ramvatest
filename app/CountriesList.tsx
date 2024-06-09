@@ -105,7 +105,9 @@ export const CountriesList = forwardRef<CountriesListRef, CountriesListProps>(
                 multiple={true}
                 options={[5, 10, 15, 20, 30]}
                 value={pageSize}
-                onChange={({ option }) => setPageSize(option)}
+                onChange={({ option }) => {  {
+                  setPage(1) 
+                  setPageSize(option)}}}
               />
             </Box>
 
