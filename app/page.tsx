@@ -27,7 +27,7 @@ export default function Home() {
 
 type SearchBarProps = {
   isLoading: boolean;
-  countriesListRef: MutableRefObject<any>;
+  countriesListRef: MutableRefObject<CountriesListRef | null>;
 };
 const SearchBar = (props: SearchBarProps) => {
   const [search, setSearch] = useState("");
@@ -58,7 +58,7 @@ const SearchBar = (props: SearchBarProps) => {
         style={{ whiteSpace: "nowrap" }}
         onClick={() => {
           console.log(props.countriesListRef);
-          props.countriesListRef.current?.fetchData();
+          props.countriesListRef.current?.fetchData(search);
         }}
       />
     </Box>
